@@ -1,4 +1,4 @@
-#   Copyright (c) 2023 Daniel Gabay
+# Copyright (c) 2023 Daniel Gabay
 
 from http import HTTPStatus
 
@@ -6,13 +6,13 @@ from flask.views import MethodView
 from flask_injector import inject
 from flask_smorest import Blueprint
 
+from decorators import view_exception_handler
 from schemes import UserSchema
 from services.authentication_service import AuthenticationService
 
 blp = Blueprint("auth", __name__, description="Authentication operations")
 
 
-@blp.route("/auth")
 class AuthView(MethodView):
 
     @inject
@@ -20,12 +20,22 @@ class AuthView(MethodView):
         super().__init__()
         self._authentication_service = authentication_service
 
-    @blp.arguments(UserSchema)
-    def get(self, user_data: dict) -> None:
-        access_token = self._authentication_service.login(**user_data)
-        return {"access_token": access_token}
+
+@blp.route("/auth/login")
+class AuthLoginView(AuthView):
 
     @blp.arguments(UserSchema)
-    @blp.response(HTTPStatus.NO_CONTENT, UserSchema)
-    def post(self, user_data: dict) -> None:
-        self._authentication_service.register(**user_data)
+    @blp.response(HTTPStatus.OK)
+    @view_exception_handler
+    def post(self, user_data: dict):
+        return self._authentication_service.login(**user_data)
+
+
+@blp.route("/auth/register")
+class AuthRegisterView(AuthView):
+
+    @blp.arguments(UserSchema)
+    @blp.response(HTTPStatus.CREATED)
+    @view_exception_handler
+    def post(self, user_data: dict):
+        return self._authentication_service.register(**user_data)

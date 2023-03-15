@@ -3,18 +3,18 @@
 from flask_jwt_extended import create_access_token
 from injector import inject
 
-from data.dal.authentication_dal import AuthenticationDal
+from data.data_access.authentication_data_access import AuthenticationDataAccess
 
 
 class AuthenticationService:
 
     @inject
-    def __init__(self, authentication_dal: AuthenticationDal):
-        self._authentication_dal = authentication_dal
+    def __init__(self, authentication_data_access: AuthenticationDataAccess):
+        self._authentication_dal = authentication_data_access
 
-    def login(self, username: str, password: str) -> str:
+    def login(self, username: str, password: str) -> dict:
         if self._authentication_dal.login(username, password):
-            return create_access_token(identity=username)
+            return {"access_token": create_access_token(identity=username)}
 
-    def register(self, username: str, password: str) -> None:
-        self._authentication_dal.register(username, password)
+    def register(self, username: str, password: str) -> dict:
+        return self._authentication_dal.register(username, password)
