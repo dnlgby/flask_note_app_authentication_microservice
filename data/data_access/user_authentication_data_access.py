@@ -2,26 +2,26 @@
 
 from http import HTTPStatus
 
-import requests
 from flask_injector import inject
 
+from crud_handler import RequestHandler
 from di.wrappers import DatabaseServiceUrlStringWrapper
 from exceptions.authentication_data_access_layer_exceptions import AuthenticationError, \
     ServiceInternalException, UserAlreadyExistError, RegistrationValidationError
 
 
-class AuthenticationDataAccess:
+class UserAuthenticationDataAccess:
 
     @inject
     def __init__(self, database_service_url: DatabaseServiceUrlStringWrapper):
         self._database_service_url = database_service_url.value
 
-    def _perform_post_request(self, endpoint: str, payload: dict) -> requests.Response:
-        return requests.post(f"{self._database_service_url}/{endpoint}", json=payload)
-
     def login(self, username: str, password: str) -> bool:
         payload = {"username": username, "password": password}
-        response = self._perform_post_request(endpoint='user/validate', payload=payload)
+        response = RequestHandler.perform_post_request(
+            url=self._database_service_url,
+            endpoint='user/validate',
+            payload=payload)
 
         # User logged in successfully
         if response.status_code == HTTPStatus.NO_CONTENT:
@@ -34,7 +34,10 @@ class AuthenticationDataAccess:
 
     def register(self, username: str, password: str) -> dict:
         payload = {"username": username, "password": password}
-        response = self._perform_post_request(endpoint='user', payload=payload)
+        response = RequestHandler.perform_post_request(
+            url=self._database_service_url,
+            endpoint='user',
+            payload=payload)
 
         # User registered successfully
         if response.status_code == HTTPStatus.CREATED:

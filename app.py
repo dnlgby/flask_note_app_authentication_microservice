@@ -1,12 +1,14 @@
 # Copyright (c) 2023 Daniel Gabay
 
+import os
+
 from dotenv import load_dotenv
 from flask import Flask
 from flask_injector import FlaskInjector
 from flask_jwt_extended import JWTManager
 from flask_smorest import Api
 
-from di.configuration_module import ConfigurationModule
+from di.service_module import ServiceModule
 from resources import AuthenticationBlueprint
 
 
@@ -34,10 +36,14 @@ def create_app():
     api.register_blueprint(AuthenticationBlueprint)
 
     # JWT - Will set on code for now for developing purposes
-    app.config['JWT_SECRET_KEY'] = "255173194567594702208572596592176805026"
+    secret_key = os.getenv('JWT_SECRET_KEY')
+    if secret_key is None:
+        raise ValueError("The JWT_SECRET_KEY environment variable must be set")
+
+    app.config['JWT_SECRET_KEY'] = secret_key
     jwt = JWTManager(app)
 
     # Dependency injection
-    FlaskInjector(app=app, modules=[ConfigurationModule])
+    FlaskInjector(app=app, modules=[ServiceModule])
 
     return app
