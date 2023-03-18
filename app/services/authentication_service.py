@@ -10,11 +10,11 @@ class AuthenticationService:
 
     @inject
     def __init__(self, authentication_data_access: UserAuthenticationDataAccess):
-        self._authentication_dal = authentication_data_access
+        self._authentication_data_access = authentication_data_access
 
     def login(self, username: str, password: str) -> dict:
-        if self._authentication_dal.login(username, password):
+        if self._authentication_data_access.login(username, password):
             return {"access_token": create_access_token(identity=username)}
 
     def register(self, username: str, password: str) -> dict:
-        return self._authentication_dal.register(username, password)
+        return self._authentication_data_access.register(username, password)
