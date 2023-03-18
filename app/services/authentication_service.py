@@ -3,7 +3,7 @@
 from flask_jwt_extended import create_access_token
 from injector import inject
 
-from data.data_access.user_authentication_data_access import UserAuthenticationDataAccess
+from app.data.data_access.user_authentication_data_access import UserAuthenticationDataAccess
 
 
 class AuthenticationService:

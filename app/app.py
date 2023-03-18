@@ -8,15 +8,19 @@ from flask_injector import FlaskInjector
 from flask_jwt_extended import JWTManager
 from flask_smorest import Api
 
-from di.service_module import ServiceModule
-from resources import AuthenticationBlueprint
+from app.di.service_module import ServiceModule
+from app.resources import AuthenticationBlueprint
 
 
 def create_app():
     app = Flask(__name__)
 
-    # Load environment variables from existing '.env' files
-    load_dotenv()
+    # Load environment variables from existing '.env' & '.flaskenv' files
+    dotenv_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), '.env')
+    load_dotenv(dotenv_path)
+
+    flaskenv_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), '.flaskenv')
+    load_dotenv(flaskenv_path)
 
     # Flask
     app.config["PROPOGATE_EXCEPTION"] = True

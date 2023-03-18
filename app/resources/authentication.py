@@ -6,9 +6,9 @@ from flask.views import MethodView
 from flask_injector import inject
 from flask_smorest import Blueprint
 
-from decorators import view_exception_handler
-from schemes import UserSchema
-from services.authentication_service import AuthenticationService
+from app.decorators import view_exception_handler
+from app.schemes import UserSchema
+from app.services.authentication_service import AuthenticationService
 
 blp = Blueprint("auth", __name__, description="Authentication operations")
 

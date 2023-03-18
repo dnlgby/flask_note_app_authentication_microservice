@@ -5,7 +5,7 @@ from http import HTTPStatus
 
 from flask_smorest import abort
 
-from exceptions.authentication_data_access_layer_exceptions import *
+from app.exceptions.authentication_data_access_layer_exceptions import *
 
 
 def view_exception_handler(f):

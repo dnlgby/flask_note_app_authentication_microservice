@@ -2,9 +2,9 @@
 
 from injector import singleton, Module
 
-from data.data_access.user_authentication_data_access import UserAuthenticationDataAccess
-from services.authentication_service import AuthenticationService
-from di.wrappers import DatabaseServiceUrlStringWrapper
+from app.data.data_access.user_authentication_data_access import UserAuthenticationDataAccess
+from app.services.authentication_service import AuthenticationService
+from app.di.wrappers import DatabaseServiceUrlStringWrapper
 
 
 class ServiceModule(Module):

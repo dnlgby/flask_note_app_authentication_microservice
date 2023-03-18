@@ -1,6 +1,6 @@
 # Copyright (c) 2023 Daniel Gabay
 
-from exceptions.authentication_service_exception import AuthenticationServiceException
+from app.exceptions.authentication_service_exception import AuthenticationServiceException
 
 
 class DataAccessLayerException(AuthenticationServiceException):

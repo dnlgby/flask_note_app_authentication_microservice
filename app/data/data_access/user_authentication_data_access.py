@@ -4,9 +4,9 @@ from http import HTTPStatus
 
 from flask_injector import inject
 
-from crud_handler import RequestHandler
-from di.wrappers import DatabaseServiceUrlStringWrapper
-from exceptions.authentication_data_access_layer_exceptions import AuthenticationError, \
+from app.data.data_access.crud_handler import RequestHandler
+from app.di.wrappers import DatabaseServiceUrlStringWrapper
+from app.exceptions.authentication_data_access_layer_exceptions import AuthenticationError, \
     ServiceInternalException, UserAlreadyExistError, RegistrationValidationError
 
 
