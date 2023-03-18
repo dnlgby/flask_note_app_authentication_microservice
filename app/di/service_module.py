@@ -3,8 +3,8 @@
 from injector import singleton, Module
 
 from app.data.data_access.user_authentication_data_access import UserAuthenticationDataAccess
-from app.services.authentication_service import AuthenticationService
 from app.di.wrappers import DatabaseServiceUrlStringWrapper
+from app.services.authentication_service import AuthenticationService
 
 
 class ServiceModule(Module):
