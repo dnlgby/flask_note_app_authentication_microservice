@@ -16,7 +16,7 @@ class UserAuthenticationDataAccess:
     def __init__(self, database_service_url: DatabaseServiceUrlStringWrapper):
         self._database_service_url = database_service_url.value
 
-    def login(self, username: str, password: str) -> bool:
+    def login(self, username: str, password: str) -> dict:
         payload = {"username": username, "password": password}
         response = RequestHandler.perform_post_request(
             url=self._database_service_url,
@@ -24,8 +24,8 @@ class UserAuthenticationDataAccess:
             payload=payload)
 
         # User logged in successfully
-        if response.status_code == HTTPStatus.NO_CONTENT:
-            return True
+        if response.status_code == HTTPStatus.OK:
+            return response.json()
         elif response.status_code in (HTTPStatus.NOT_FOUND, HTTPStatus.UNAUTHORIZED):
             raise AuthenticationError(
                 "Login failed. Please check your login information and ensure that your account is still active.")

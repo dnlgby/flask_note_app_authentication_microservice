@@ -13,8 +13,11 @@ class AuthenticationService:
         self._authentication_data_access = authentication_data_access
 
     def login(self, username: str, password: str) -> dict:
-        if self._authentication_data_access.login(username, password):
-            return {"access_token": create_access_token(identity=username)}
+        auth_data = self._authentication_data_access.login(username, password)
+        return {
+            'user_id': auth_data['id'],
+            'access_token': create_access_token(identity=auth_data['id'])
+        }
 
     def register(self, username: str, password: str) -> dict:
         return self._authentication_data_access.register(username, password)

@@ -27,7 +27,7 @@ class AuthLoginView(AuthView):
     @blp.arguments(UserSchema)
     @blp.response(HTTPStatus.OK)
     @view_exception_handler
-    def post(self, user_data: dict):
+    def post(self, user_data: dict) -> dict:
         return self._authentication_service.login(**user_data)
 
 
@@ -37,5 +37,5 @@ class AuthRegisterView(AuthView):
     @blp.arguments(UserSchema)
     @blp.response(HTTPStatus.CREATED)
     @view_exception_handler
-    def post(self, user_data: dict):
+    def post(self, user_data: dict) -> dict:
         return self._authentication_service.register(**user_data)
