@@ -7,7 +7,7 @@ from flask_injector import inject
 from flask_smorest import Blueprint
 
 from app.decorators import view_exception_handler
-from app.schemes import UserSchema
+from app.schemes import UserSchema, LoginSchema, RegisterSchema
 from app.services.authentication_service import AuthenticationService
 
 blp = Blueprint("auth", __name__, description="Authentication operations")
@@ -25,9 +25,9 @@ class AuthView(MethodView):
 class AuthLoginView(AuthView):
 
     @blp.arguments(UserSchema)
-    @blp.response(HTTPStatus.OK)
+    @blp.response(HTTPStatus.OK, LoginSchema)
     @view_exception_handler
-    def post(self, user_data: dict) -> dict:
+    def post(self, user_data: dict):
         return self._authentication_service.login(**user_data)
 
 
@@ -35,7 +35,7 @@ class AuthLoginView(AuthView):
 class AuthRegisterView(AuthView):
 
     @blp.arguments(UserSchema)
-    @blp.response(HTTPStatus.CREATED)
+    @blp.response(HTTPStatus.CREATED, RegisterSchema)
     @view_exception_handler
-    def post(self, user_data: dict) -> dict:
+    def post(self, user_data: dict):
         return self._authentication_service.register(**user_data)

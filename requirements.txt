@@ -7,3 +7,4 @@ passlib
 gunicorn
 flask-injector
 tenacity
+flask-cors

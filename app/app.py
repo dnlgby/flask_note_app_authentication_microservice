@@ -4,6 +4,7 @@ import os
 
 from dotenv import load_dotenv
 from flask import Flask
+from flask_cors import CORS
 from flask_injector import FlaskInjector
 from flask_jwt_extended import JWTManager
 from flask_smorest import Api
@@ -14,6 +15,9 @@ from app.resources import AuthenticationBlueprint
 
 def create_app():
     app = Flask(__name__)
+
+    # Cross-Origin Resource Sharing
+    CORS(app)
 
     # Load environment variables from existing '.env' & '.flaskenv' files
     dotenv_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), '.env')
@@ -45,6 +49,7 @@ def create_app():
         raise ValueError("The JWT_SECRET_KEY environment variable must be set")
 
     app.config['JWT_SECRET_KEY'] = secret_key
+
     jwt = JWTManager(app)
 
     # Dependency injection
